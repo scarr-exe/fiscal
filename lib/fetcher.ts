@@ -69,8 +69,14 @@ export interface OHLCVData {
   price: number
 }
 
+const GENERIC_STABLECOIN_TERMS = ["STABLECOIN", "STABLE COIN", "STABLECOINS", "STABLE"]
+
 export function isStablecoin(symbol: string): boolean {
-  return ["USDC", "USDT", "DAI", "BUSD", "TUSD"].includes(symbol.toUpperCase())
+  const upper = symbol.toUpperCase()
+  return (
+    ["USDC", "USDT", "DAI", "BUSD", "TUSD"].includes(upper) ||
+    GENERIC_STABLECOIN_TERMS.includes(upper)
+  )
 }
 
 export function isCryptoAsset(symbol: string): boolean {

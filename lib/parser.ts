@@ -21,6 +21,12 @@ Rules:
 - If no amount is mentioned, set amount to null
 - If no horizon is mentioned, default to 90 days ("3 months")
 - Infer domain from asset types: crypto = BTC/ETH/DeFi tokens, tradfi = stocks/bonds/indices, mixed = both
+- CRITICAL: always resolve generic or vague terms to a real, specific ticker symbol. Never output a generic category word as an asset.
+  - "stablecoin" / "a stablecoin" / "stable coin" -> "USDC"
+  - "stablecoin yield" / "yield strategy" / "stablecoin farming" -> "USDC"
+  - "index fund" / "the market" / "stocks" (generic) -> "SPY"
+  - "bitcoin" -> "BTC", "ethereum" -> "ETH", "solana" -> "SOL"
+  - "cash" / "savings" -> treat as not an asset to simulate; if it's the only option mentioned alongside a real asset, omit it from assets and note the comparison is against holding cash
 - Do not include any text outside the JSON object`
 
 export async function parseDecision(raw: string): Promise<ParsedDecision> {
@@ -38,6 +44,28 @@ export async function parseDecision(raw: string): Promise<ParsedDecision> {
   try {
     const clean = text.replace(/```json|```/g, "").trim()
     const parsed = JSON.parse(clean)
+
+    // Safety net: normalize any generic terms that slipped through
+    const GENERIC_MAP: Record<string, string> = {
+      STABLECOIN: "USDC",
+      "STABLE COIN": "USDC",
+      STABLECOINS: "USDC",
+      BITCOIN: "BTC",
+      ETHEREUM: "ETH",
+      SOLANA: "SOL",
+      INDEX: "SPY",
+      "INDEX FUND": "SPY",
+      "THE MARKET": "SPY",
+      STOCKS: "SPY",
+    }
+
+    if (Array.isArray(parsed.assets)) {
+      parsed.assets = parsed.assets.map((a: string) => {
+        const key = a.toUpperCase().trim()
+        return GENERIC_MAP[key] || a
+      })
+    }
+
     return { raw, ...parsed } as ParsedDecision
   } catch {
     throw new Error("Failed to parse decision: " + text)
