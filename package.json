@@ -10,7 +10,11 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
+    "@okxweb3/x402-core": "^0.1.0",
+    "@okxweb3/x402-evm": "^0.2.1",
+    "@okxweb3/x402-express": "^0.1.1",
     "axios": "^1.18.1",
+    "express": "^5.2.1",
     "framer-motion": "^12.42.2",
     "groq-sdk": "^1.3.0",
     "mcp-handler": "^1.1.0",
@@ -21,6 +25,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/express": "^5.0.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
