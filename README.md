@@ -179,7 +179,7 @@ The human-facing web UI (`app/page.tsx`) calls the free, non-gated `app/api/simu
 ## Local Setup
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/scarr-exe/fiscal.git
 cd fiscal
 npm install --legacy-peer-deps
 ```
@@ -267,7 +267,7 @@ Vercel auto-deploys on push to `main`. Set all environment variables above in **
 
 ## Frontend
 
-The web UI (`app/page.tsx` + `components/ReportView.tsx`) is a secondary, human-facing surface -- useful for manual testing, but **not required** for the ASP's actual function. The paying "customer" in the A2MCP/x402 model is an AI agent calling `/api/mcp` or `/api/paid-simulate` directly.
+The web UI (`app/page.tsx` + `components/ReportView.tsx`) is a secondary, human-facing surface -- useful for demo/manual testing, but **not required** for the ASP's actual function. The paying "customer" in the A2MCP/x402 model is an AI agent calling `/api/mcp` or `/api/paid-simulate` directly.
 
 **Design system:** financial brutalism -- black background (`#0a0a0a`), lime accent (`#c8ff00`), JetBrains Mono throughout, hard edges, no gradients.
 
